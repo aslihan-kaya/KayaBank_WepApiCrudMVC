@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KayaBankModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="KayaBankModelStoreContainer">
+    <EntitySet Name="BrachInformations" EntityType="KayaBankModel.Store.BrachInformations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomerInformations" EntityType="KayaBankModel.Store.CustomerInformations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DebtInformations" EntityType="KayaBankModel.Store.DebtInformations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Payments" EntityType="KayaBankModel.Store.Payments" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_DebtInformation_CustomerInformation" Association="KayaBankModel.Store.FK_DebtInformation_CustomerInformation">
+      <End Role="CustomerInformation" EntitySet="CustomerInformations" />
+      <End Role="DebtInformation" EntitySet="DebtInformations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Payments_DebtInformation" Association="KayaBankModel.Store.FK_Payments_DebtInformation">
+      <End Role="DebtInformation" EntitySet="DebtInformations" />
+      <End Role="Payments" EntitySet="Payments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="BrachInformations">
+    <Key>
+      <PropertyRef Name="BranchNo" />
+    </Key>
+    <Property Name="BranchNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BranchName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="BranchCity" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="BranchDistrict" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="BranchManager" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="BranchContact" Type="varchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CustomerInformations">
+    <Key>
+      <PropertyRef Name="CustomerNumber" />
+    </Key>
+    <Property Name="CustomerNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="CustomerPassword" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="CustomerPhone" Type="char" Nullable="true" MaxLength="11" />
+    <Property Name="CustomerMail" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="CustomerAdres" Type="varchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DebtInformations">
+    <Key>
+      <PropertyRef Name="DebtNumber" />
+    </Key>
+    <Property Name="DebtNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DebtAmount" Type="decimal" Nullable="true" Precision="19" Scale="4" />
+    <Property Name="DebtMaturity" Type="int" Nullable="true" />
+    <Property Name="CustomerNumber" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Payments">
+    <Key>
+      <PropertyRef Name="PaymentNumber" />
+    </Key>
+    <Property Name="PaymentNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PaymentType" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="PaymentTotal" Type="decimal" Nullable="true" Precision="19" Scale="4" />
+    <Property Name="DebtNumber" Type="int" Nullable="true" />
+  </EntityType>
+  <Association Name="FK_DebtInformation_CustomerInformation">
+    <End Role="CustomerInformation" Type="KayaBankModel.Store.CustomerInformations" Multiplicity="0..1" />
+    <End Role="DebtInformation" Type="KayaBankModel.Store.DebtInformations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerInformation">
+        <PropertyRef Name="CustomerNumber" />
+      </Principal>
+      <Dependent Role="DebtInformation">
+        <PropertyRef Name="CustomerNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Payments_DebtInformation">
+    <End Role="DebtInformation" Type="KayaBankModel.Store.DebtInformations" Multiplicity="0..1" />
+    <End Role="Payments" Type="KayaBankModel.Store.Payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DebtInformation">
+        <PropertyRef Name="DebtNumber" />
+      </Principal>
+      <Dependent Role="Payments">
+        <PropertyRef Name="DebtNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KayaBankModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BrachInformation">
+          <Key>
+            <PropertyRef Name="BranchNo" />
+          </Key>
+          <Property Name="BranchNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchDistrict" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchManager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchContact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CustomerInformation">
+          <Key>
+            <PropertyRef Name="CustomerNumber" />
+          </Key>
+          <Property Name="CustomerNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerPassword" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="CustomerPhone" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="CustomerMail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerAdres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DebtInformations" Relationship="Self.FK_DebtInformation_CustomerInformation" FromRole="CustomerInformation" ToRole="DebtInformation" />
+        </EntityType>
+        <EntityType Name="DebtInformation">
+          <Key>
+            <PropertyRef Name="DebtNumber" />
+          </Key>
+          <Property Name="DebtNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DebtAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DebtMaturity" Type="Int32" />
+          <Property Name="CustomerNumber" Type="Int32" />
+          <NavigationProperty Name="CustomerInformation" Relationship="Self.FK_DebtInformation_CustomerInformation" FromRole="DebtInformation" ToRole="CustomerInformation" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payments_DebtInformation" FromRole="DebtInformation" ToRole="Payments" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentNumber" />
+          </Key>
+          <Property Name="PaymentNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentTotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DebtNumber" Type="Int32" />
+          <NavigationProperty Name="DebtInformation" Relationship="Self.FK_Payments_DebtInformation" FromRole="Payments" ToRole="DebtInformation" />
+        </EntityType>
+        <Association Name="FK_DebtInformation_CustomerInformation">
+          <End Role="CustomerInformation" Type="Self.CustomerInformation" Multiplicity="0..1" />
+          <End Role="DebtInformation" Type="Self.DebtInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerInformation">
+              <PropertyRef Name="CustomerNumber" />
+            </Principal>
+            <Dependent Role="DebtInformation">
+              <PropertyRef Name="CustomerNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_DebtInformation">
+          <End Role="DebtInformation" Type="Self.DebtInformation" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DebtInformation">
+              <PropertyRef Name="DebtNumber" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="DebtNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KayaBankEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BrachInformations" EntityType="Self.BrachInformation" />
+          <EntitySet Name="CustomerInformations" EntityType="Self.CustomerInformation" />
+          <EntitySet Name="DebtInformations" EntityType="Self.DebtInformation" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <AssociationSet Name="FK_DebtInformation_CustomerInformation" Association="Self.FK_DebtInformation_CustomerInformation">
+            <End Role="CustomerInformation" EntitySet="CustomerInformations" />
+            <End Role="DebtInformation" EntitySet="DebtInformations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_DebtInformation" Association="Self.FK_Payments_DebtInformation">
+            <End Role="DebtInformation" EntitySet="DebtInformations" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="KayaBankModelStoreContainer" CdmEntityContainer="KayaBankEntities2">
+    <EntitySetMapping Name="BrachInformations">
+      <EntityTypeMapping TypeName="IsTypeOf(KayaBankModel.BrachInformation)">
+        <MappingFragment StoreEntitySet="BrachInformations">
+          <ScalarProperty Name="BranchNo" ColumnName="BranchNo" />
+          <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+          <ScalarProperty Name="BranchCity" ColumnName="BranchCity" />
+          <ScalarProperty Name="BranchDistrict" ColumnName="BranchDistrict" />
+          <ScalarProperty Name="BranchManager" ColumnName="BranchManager" />
+          <ScalarProperty Name="BranchContact" ColumnName="BranchContact" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerInformations">
+      <EntityTypeMapping TypeName="IsTypeOf(KayaBankModel.CustomerInformation)">
+        <MappingFragment StoreEntitySet="CustomerInformations">
+          <ScalarProperty Name="CustomerNumber" ColumnName="CustomerNumber" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerPassword" ColumnName="CustomerPassword" />
+          <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+          <ScalarProperty Name="CustomerMail" ColumnName="CustomerMail" />
+          <ScalarProperty Name="CustomerAdres" ColumnName="CustomerAdres" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DebtInformations">
+      <EntityTypeMapping TypeName="IsTypeOf(KayaBankModel.DebtInformation)">
+        <MappingFragment StoreEntitySet="DebtInformations">
+          <ScalarProperty Name="DebtNumber" ColumnName="DebtNumber" />
+          <ScalarProperty Name="DebtAmount" ColumnName="DebtAmount" />
+          <ScalarProperty Name="DebtMaturity" ColumnName="DebtMaturity" />
+          <ScalarProperty Name="CustomerNumber" ColumnName="CustomerNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="IsTypeOf(KayaBankModel.Payment)">
+        <MappingFragment StoreEntitySet="Payments">
+          <ScalarProperty Name="PaymentNumber" ColumnName="PaymentNumber" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="PaymentTotal" ColumnName="PaymentTotal" />
+          <ScalarProperty Name="DebtNumber" ColumnName="DebtNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

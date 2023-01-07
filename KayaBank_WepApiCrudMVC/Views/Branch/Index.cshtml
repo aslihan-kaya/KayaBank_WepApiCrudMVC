@@ -1,0 +1,75 @@
+﻿@model IEnumerable<KayaBank_WepApiCrudMVC.Models.Branch>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchDistrict)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchManager)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchContact)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchDistrict)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchManager)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchContact)
+            </td>
+            <td>
+                <a href="@Url.Action("Add","Branch",new {id=item.BranchNo})" class="btn btn-default"><i class="fa fa-pencil-square"></i>Edit</a>
+                <a onclick="BDelete(@item.BranchNo)" class="btn btn-default"><i class="fa fa-pencil-trash"></i>Sil</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    <script>
+    $(function () {
+        var successMessage = '@TempData["SuccessMessage"]';
+
+        if (successMessage != '')
+            alertify.success(successMessage);
+    });
+    function Sil(id) {
+        alertify.confirm('silme işlemi', 'Kayıtı silmek istiyormusunuz ?', function () {
+            window.location.href = '@Url.Action("Delete","Branch")/' + id;
+        }, null);
+    }
+    </script>
+}
